@@ -1,5 +1,4 @@
 HMMER Alignment Visualizer
-https://screenshot.png
 Пример работы визуализатора локальных выравниваний
 
 Описание
@@ -18,20 +17,18 @@ Python: версия 3.8 или новее
 Клонируйте репозиторий:
 
 bash
-git clone https://github.com/yourusername/hmmer-visualizer.git
-cd hmmer-visualizer
-
+```git clone https://github.com/yourusername/hmmer-visualizer.git```
+```cd hmmer-visualizer```
 
 Установите зависимости:
 bash
-pip install -r requirements.txt
-Зависимости
+```pip install -r requirements.txt```
 
 Использование
 Запустите приложение:
 
 bash
-python main.py
+```python main.py```
 
 
 В интерфейсе:
