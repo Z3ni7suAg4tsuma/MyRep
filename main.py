@@ -68,31 +68,26 @@ def hmmr_parser(hmmer_file):
 
 
 def create_alignment_heatmap(query_seq, target_seq, start_pos):
-    """Создает посимвольное отображение выравнивания"""
     symbols = []
     colors = []
     positions = []
     sequences = []
 
-    # цвет для кажд символа
     for i, (q_char, t_char) in enumerate(zip(query_seq, target_seq)):
         pos = start_pos + i
         positions.append(pos)
 
         if q_char == t_char:
-            # совпадение-зел
             symbols.append(f'{q_char}={t_char}')
-            colors.append('#2ecc71')  # зеленый
+            colors.append('#2ecc71')
             sequences.append(f'Match: {q_char} = {t_char}')
         elif q_char == '-' or t_char == '-':
-            # gap-оранж
             symbols.append(f'{q_char}|{t_char}')
-            colors.append('#e67e22')  # оранжевый
+            colors.append('#e67e22')
             sequences.append(f'Gap: {q_char} vs {t_char}')
         else:
-            # несовпадение-красный
             symbols.append(f'{q_char}!{t_char}')
-            colors.append('#e74c3c')  # красный
+            colors.append('#e74c3c')
             sequences.append(f'Mismatch: {q_char} ≠ {t_char}')
 
     return positions, symbols, colors, sequences
@@ -148,21 +143,18 @@ def main():
     """
 
     def create_detailed_view(data):
-        """Создает детальное посимвольное отображение"""
         full_target = data['target_sequence']
         full_query = data['query_sequence']
         start = data['target_start']
         end = data['target_end']
         sqlen = int(data['sqlen'])
 
-        # heatmap для посимвольного отображения
         positions, symbols, colors, hover_texts = create_alignment_heatmap(
             full_query, full_target, start
         )
 
         fig = go.Figure()
 
-        # посимвольное отображение
         for i, (pos, symbol, color, hover_text) in enumerate(zip(positions, symbols, colors, hover_texts)):
             fig.add_trace(go.Scatter(
                 x=[pos],
@@ -182,7 +174,6 @@ def main():
                 name=f'pos_{pos}'
             ))
 
-        # линии для последовательностей
         fig.add_trace(go.Scatter(
             x=positions,
             y=[0.2] * len(positions),
@@ -205,7 +196,6 @@ def main():
             hoverinfo='text'
         ))
 
-        # layout
         fig.update_layout(
             title="Посимвольное выравнивание (Зеленый=совпадение, Красный=несовпадение, Оранжевый=gap)",
             margin=dict(l=20, r=20, t=50, b=20),
@@ -231,7 +221,6 @@ def main():
         return fig
 
     def create_overview_view(data):
-        """Создает общий вид выравнивания"""
         full_target = data['target_sequence']
         full_query = data['query_sequence']
         start = data['target_start']
@@ -326,7 +315,6 @@ def main():
                 update_visualization.current_data = data
                 update_visualization()
 
-                # статистика выравнивания
                 matches = sum(1 for q, t in zip(data['query_sequence'], data['target_sequence']) if q == t)
                 gaps = sum(1 for q, t in zip(data['query_sequence'], data['target_sequence']) if q == '-' or t == '-')
                 identity = (matches / len(data['query_sequence'])) * 100
@@ -353,7 +341,6 @@ def main():
             pos = title[6:]
             text_display.append(f"\nКлик на позиции: {pos}")
 
-    # кнопки
     file_button.clicked.connect(select_file)
     view_button.clicked.connect(toggle_view)
     browser.titleChanged.connect(update_title)
